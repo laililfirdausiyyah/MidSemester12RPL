@@ -8,14 +8,16 @@ import android.os.Parcelable;
  */
 
 public class MahasiswaModel implements Parcelable {
-    private int id;
+    private String id;
     private String name;
     private String nim;
     private String url;
     private String tanggal;
 
     public MahasiswaModel(String nama, String deskripsi, String gambar){
-
+        this.name = nama;
+        this.nim = deskripsi;
+        this.url = gambar;
     }
 
     public MahasiswaModel(String name, String nim,String url,String tanggal){
@@ -25,13 +27,6 @@ public class MahasiswaModel implements Parcelable {
         this.tanggal = tanggal;
     }
 
-    public MahasiswaModel(int id, String name, String nim,String url,String tanggal){
-        this.id = id;
-        this.name = name;
-        this.nim = nim;
-        this.url = url;
-        this.tanggal = tanggal;
-    }
 
     public String getUrl() {
         return url;
@@ -63,11 +58,11 @@ public class MahasiswaModel implements Parcelable {
         this.tanggal = tanggal;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -78,7 +73,7 @@ public class MahasiswaModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
+        dest.writeString(this.id);
         dest.writeString(this.name);
         dest.writeString(this.nim);
         dest.writeString(this.url);
@@ -86,7 +81,7 @@ public class MahasiswaModel implements Parcelable {
     }
 
     protected MahasiswaModel(Parcel in) {
-        this.id = in.readInt();
+        this.id = in.readString();
         this.name = in.readString();
         this.nim = in.readString();
         this.url = in.readString();

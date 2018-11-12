@@ -58,6 +58,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewHolder> 
                 i.putExtra("Nama", Nama);
                 i.putExtra("Gambar", Gambar);
                 i.putExtra("Deskripsi", Deskripsi);
+                Log.e(TAG, "onClick: "+Gambar );
                 context.startActivity(i);
             }
         });

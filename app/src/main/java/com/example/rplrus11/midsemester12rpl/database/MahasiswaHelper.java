@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 import java.util.ArrayList;
@@ -11,7 +12,6 @@ import java.util.ArrayList;
 import static android.provider.BaseColumns._ID;
 import static com.example.rplrus11.midsemester12rpl.database.DatabaseContract.MahasiswaColumns.NAMA;
 import static com.example.rplrus11.midsemester12rpl.database.DatabaseContract.MahasiswaColumns.NIM;
-import static com.example.rplrus11.midsemester12rpl.database.DatabaseContract.MahasiswaColumns.TANGGAL;
 import static com.example.rplrus11.midsemester12rpl.database.DatabaseContract.MahasiswaColumns.URL;
 import static com.example.rplrus11.midsemester12rpl.database.DatabaseContract.TABLE_NAME;
 
@@ -27,17 +27,21 @@ public class MahasiswaHelper {
     String Nama;
     String Deskripsi;
     String Gambar;
-
     private SQLiteDatabase database;
 
     public MahasiswaHelper(Context context){
-        this.context = context;
+        dataBaseHelper = new DatabaseHelper(context);
     }
-
     public MahasiswaHelper open() throws SQLException {
         dataBaseHelper = new DatabaseHelper(context);
-        database = dataBaseHelper.getWritableDatabase();
         return this;
+    }
+    public int delete(String uname) {
+        database = dataBaseHelper.getWritableDatabase();
+        String[] whereArgs = {uname};
+
+        int count = database.delete(TABLE_NAME, _ID + " = ?", whereArgs);
+        return count;
     }
 
     public void close(){
@@ -58,11 +62,10 @@ public class MahasiswaHelper {
         if (cursor.getCount()>0) {
             do {
                 mahasiswaModel = new MahasiswaModel(Nama,Deskripsi,Gambar);
-                mahasiswaModel.setId(cursor.getInt(cursor.getColumnIndexOrThrow(_ID)));
+                mahasiswaModel.setId(cursor.getString(cursor.getColumnIndexOrThrow(_ID)));
                 mahasiswaModel.setName(cursor.getString(cursor.getColumnIndexOrThrow(NAMA)));
                 mahasiswaModel.setNim(cursor.getString(cursor.getColumnIndexOrThrow(NIM)));
                 mahasiswaModel.setUrl(cursor.getString(cursor.getColumnIndexOrThrow(URL)));
-                mahasiswaModel.settanggal(cursor.getString(cursor.getColumnIndexOrThrow(TANGGAL)));
 
                 arrayList.add(mahasiswaModel);
                 cursor.moveToNext();
@@ -79,6 +82,7 @@ public class MahasiswaHelper {
      * @return hasil query mahasiswa model di dalam arraylist
      */
     public ArrayList<MahasiswaModel> getAllData(){
+        database = dataBaseHelper.getWritableDatabase();
         Cursor cursor = database.query(TABLE_NAME,null,null,null,null,null,_ID+ " ASC",null);
         cursor.moveToFirst();
         ArrayList<MahasiswaModel> arrayList = new ArrayList<>();
@@ -86,11 +90,10 @@ public class MahasiswaHelper {
         if (cursor.getCount()>0) {
             do {
                 mahasiswaModel = new MahasiswaModel(Nama, Deskripsi, Gambar);
-                mahasiswaModel.setId(cursor.getInt(cursor.getColumnIndexOrThrow(_ID)));
+                mahasiswaModel.setId(cursor.getString(cursor.getColumnIndexOrThrow(_ID)));
                 mahasiswaModel.setName(cursor.getString(cursor.getColumnIndexOrThrow(NAMA)));
                 mahasiswaModel.setNim(cursor.getString(cursor.getColumnIndexOrThrow(NIM)));
                 mahasiswaModel.setUrl(cursor.getString(cursor.getColumnIndexOrThrow(URL)));
-                mahasiswaModel.settanggal(cursor.getString(cursor.getColumnIndexOrThrow(TANGGAL)));
                 arrayList.add(mahasiswaModel);
                 cursor.moveToNext();
 
@@ -127,7 +130,8 @@ public class MahasiswaHelper {
      * @param mahasiswaModel inputan model mahasiswa
      */
     public void insertTransaction(MahasiswaModel mahasiswaModel){
-        String sql = "INSERT INTO "+TABLE_NAME+" ("+NAMA+", "+NIM+", "+URL+") VALUES (?, ? , ? , ?)";
+        database = dataBaseHelper.getWritableDatabase();
+        String sql = "INSERT INTO "+TABLE_NAME+" ("+NAMA+", "+NIM+", "+URL+") VALUES (?, ? , ?)";
         SQLiteStatement stmt = database.compileStatement(sql);
         stmt.bindString(1, mahasiswaModel.getName());
         stmt.bindString(2, mahasiswaModel.getNim());
@@ -136,7 +140,5 @@ public class MahasiswaHelper {
         stmt.clearBindings();
         Log.d("sukses", "insertTransaction: ");
     }
-    public void insertTransaction(){
 
-    }
 }

@@ -12,7 +12,8 @@ public class RecycleViewHolder extends RecyclerView.ViewHolder {
     public TextView nama;
     public ImageView img_photo;
     public TextView btndetail;
-    public TextView btnshare;
+    public Button btnshare;
+    public Button btnhapus;
 
     public RecycleViewHolder(View ItemView){
         super(ItemView);
@@ -21,5 +22,6 @@ public class RecycleViewHolder extends RecyclerView.ViewHolder {
      img_photo = (ImageView) ItemView.findViewById(R.id.image1);
      btndetail = (Button) ItemView.findViewById(R.id.btndetail);
      btnshare = (Button) ItemView.findViewById(R.id.btnshare);
+     btnhapus = (Button) ItemView.findViewById(R.id.btnhapus);
     }
 }

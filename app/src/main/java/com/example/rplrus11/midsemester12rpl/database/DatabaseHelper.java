@@ -2,11 +2,13 @@ package com.example.rplrus11.midsemester12rpl.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteDatabaseLockedException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
 import static android.provider.BaseColumns._ID;
 import static com.example.rplrus11.midsemester12rpl.database.DatabaseContract.MahasiswaColumns.NAMA;
 import static com.example.rplrus11.midsemester12rpl.database.DatabaseContract.MahasiswaColumns.NIM;
-import static com.example.rplrus11.midsemester12rpl.database.DatabaseContract.MahasiswaColumns.TANGGAL;
 import static com.example.rplrus11.midsemester12rpl.database.DatabaseContract.MahasiswaColumns.URL;
 import static com.example.rplrus11.midsemester12rpl.database.DatabaseContract.TABLE_NAME;
 
@@ -24,9 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             " ("+_ID+" integer primary key autoincrement, " +
             NAMA+" text not null, " +
             URL+" text not null, " +
-            TANGGAL+" text not null, " +
             NIM+" text not null);";
-
 
 
     public DatabaseHelper(Context context) {

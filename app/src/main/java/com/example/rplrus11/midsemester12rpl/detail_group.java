@@ -1,3 +1,4 @@
+
 package com.example.rplrus11.midsemester12rpl;
 
 import android.annotation.SuppressLint;
@@ -9,6 +10,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.Model;
@@ -59,14 +62,12 @@ public class detail_group extends AppCompatActivity {
         btn_trailer = findViewById(R.id.btn_trailer);
         fab = findViewById(R.id.fab);
         mahasiswaHelper = new MahasiswaHelper(this);
-        new myfavasyntask().execute();
-
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
         if (bundle != null) {
-            nama = bundle.getString("nama");
-            Deskripsi = bundle.getString("deskripsi");
-            Gambar = bundle.getString("gambar");
+            nama = bundle.getString("Nama");
+            Deskripsi = bundle.getString("Deskripsi");
+            Gambar = bundle.getString("Gambar");
             txtnama.setText(nama);
             tvDeskripsi.setText(Deskripsi);
             Log.d("gambarku", "onCreate: " + Gambar);
@@ -83,8 +84,11 @@ public class detail_group extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Toast.makeText(getApplicationContext(),"Sukses Favorit", Toast.LENGTH_SHORT).show();
                     if (flag) {
                         fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_favorite_black_24dp));
+                        MahasiswaModel mahasiswaModel  = new MahasiswaModel(nama,Deskripsi,Gambar);
+                        mahasiswaHelper.insertTransaction(mahasiswaModel);
                         flag = false;
                     } else if (!flag) {
                         fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_favorite_border_black_24dp));
@@ -108,16 +112,17 @@ public class detail_group extends AppCompatActivity {
             mahasiswaHelper.open();
             mahasiswaHelper.beginTransaction();
             MahasiswaModel model = new MahasiswaModel(nama,Deskripsi,Gambar);
-            mahasiswaHelper.insertTransaction();
+            mahasiswaHelper.insertTransaction(model);
             mahasiswaHelper.setTransactionSuccess();
             mahasiswaHelper.endTransaction();
             mahasiswaHelper.close();
+            //Toast.makeText(getApplicationContext(),"tersimpan", Toast.LENGTH_SHORT).show();
             return suksesLoad;
             }
 
             @Override
             protected void onPostExecute (Boolean suksesLoad){
-                fab.setEnabled(false);
+                //fab.setEnabled(false);
                 super.onPostExecute(suksesLoad);
             }
         }

@@ -50,6 +50,9 @@ public class Home extends AppCompatActivity {
                 Intent intent = new Intent(Home.this, MainActivity.class);
                 startActivity(intent);
                 finish();
+            case R.id.itm_favor:
+                Intent intent1 = new Intent(this,Favorite.class);
+                startActivity(intent1);
             default:
                 return super.onOptionsItemSelected(item);
         }
