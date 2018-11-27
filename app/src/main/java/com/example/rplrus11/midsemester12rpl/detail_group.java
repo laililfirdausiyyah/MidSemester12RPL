@@ -64,14 +64,15 @@ public class detail_group extends AppCompatActivity {
         mahasiswaHelper = new MahasiswaHelper(this);
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
-        if (bundle != null) {
-            nama = bundle.getString("Nama");
-            Deskripsi = bundle.getString("Deskripsi");
-            Gambar = bundle.getString("Gambar");
-            txtnama.setText(nama);
-            tvDeskripsi.setText(Deskripsi);
-            Log.d("gambarku", "onCreate: " + Gambar);
-            Glide.with(detail_group.this).load(Gambar).into(imageView);
+        nama = bundle.getString("Nama");
+        Deskripsi = bundle.getString("Deskripsi");
+        Gambar = bundle.getString("Gambar");
+        txtnama.setText(nama);
+        tvDeskripsi.setText(Deskripsi);
+        Log.d("gambarku", "onCreate: " + Gambar);
+        Glide.with(detail_group.this)
+                    .load(Gambar)
+                    .into(imageView);
 
             btn_trailer.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -96,7 +97,6 @@ public class detail_group extends AppCompatActivity {
                     }
                 }
             });
-        }
     }
 
     @SuppressLint("StaticFieldLeak")

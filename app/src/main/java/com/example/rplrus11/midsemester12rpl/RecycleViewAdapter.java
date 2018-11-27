@@ -44,14 +44,14 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewHolder> 
         final item_Object item_object = ItemObjectArraylist.get(position);
         Log.d("erorku", "onBindViewHolder: " + holder.nama);
         Glide.with(context)
-                .load(url + item_object.getGambar())
+                .load(item_object.getGambar())
                 .into(holder.img_photo);
         holder.nama.setText(item_object.getNama());
         holder.btndetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final String Nama = item_object.getNama();
-                final String Gambar = url + item_object.getGambar();
+                final String Gambar =  item_object.getGambar();
                 final String Deskripsi = item_object.getDeskripsi();
                 Log.e(TAG, "deskripsi " + Deskripsi);
                 Intent i = new Intent(context.getApplicationContext(), detail_group.class);

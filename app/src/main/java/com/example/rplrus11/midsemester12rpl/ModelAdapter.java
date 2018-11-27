@@ -49,7 +49,7 @@ public class ModelAdapter extends RecyclerView.Adapter<RecycleViewHolder> {
         holder.btndetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String Nama = mahasiswaModelArrayList.get(position).getName();
+                String Nama = mahasiswaModelArrayList.get(position).getName();
                 final String Gambar = mahasiswaModelArrayList.get(position).getNim();
                 final String Deskripsi = mahasiswaModelArrayList.get(position).getUrl();
                 final String id = String.valueOf(mahasiswaModelArrayList.get(position).getId());
